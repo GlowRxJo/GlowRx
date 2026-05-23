@@ -1,0 +1,1073 @@
+```react
+import React, { useState, useMemo } from 'react';
+
+// ==================== رسومات فيكتور فاخرة (Inline SVGs) مخصصة لكل نوع علاج ====================
+
+// 1. رسمة حقن الفيلر، البوتكس وإبر النضارة الفخمة
+function NeedleIllustration({ className = "w-full h-32" }) {
+  return (
+    <div className={`flex items-center justify-center bg-gradient-to-br from-rose-50/60 to-amber-100/30 dark:from-stone-900 dark:to-stone-950 p-4 rounded-t-3xl ${className}`}>
+      <svg viewBox="0 0 100 100" className="w-20 h-20 text-[#B48B5E]" fill="none" stroke="currentColor" strokeWidth="1.5">
+        {/* Syringe Body */}
+        <rect x="46" y="25" width="8" height="35" rx="1" stroke="#B48B5E" />
+        <line x1="46" y1="35" x2="54" y2="35" stroke="#B48B5E" strokeWidth="1" />
+        <line x1="46" y1="45" x2="54" y2="45" stroke="#B48B5E" strokeWidth="1" />
+        <line x1="46" y1="55" x2="54" y2="55" stroke="#B48B5E" strokeWidth="1" />
+        {/* Plunger */}
+        <line x1="50" y1="25" x2="50" y2="10" stroke="#B48B5E" strokeWidth="2" />
+        <line x1="44" y1="10" x2="56" y2="10" stroke="#B48B5E" strokeWidth="2" />
+        {/* Needle Tip */}
+        <line x1="50" y1="60" x2="50" y2="78" stroke="#B48B5E" strokeWidth="1" />
+        {/* Glowing serum drops and DNA sparkles */}
+        <circle cx="50" cy="85" r="2.5" fill="#B48B5E" className="animate-bounce" />
+        <circle cx="38" cy="72" r="1.5" fill="#B48B5E" opacity="0.6" />
+        <circle cx="62" cy="74" r="1.5" fill="#B48B5E" opacity="0.6" />
+        {/* Sparkles */}
+        <path d="M 32 30 L 34 32 L 32 34 L 30 32 Z" fill="#B48B5E" />
+        <path d="M 68 40 L 70 42 L 68 44 L 66 42 Z" fill="#B48B5E" />
+      </svg>
+    </div>
+  );
+}
+
+// 2. رسمة جهاز الديرمابن الحديث وتجديد خلايا البشرة
+function DermapenIllustration({ className = "w-full h-32" }) {
+  return (
+    <div className={`flex items-center justify-center bg-gradient-to-br from-stone-50 to-amber-100/20 dark:from-stone-900 dark:to-stone-950 p-4 rounded-t-3xl ${className}`}>
+      <svg viewBox="0 0 100 100" className="w-20 h-20 text-[#B48B5E]" fill="none" stroke="currentColor" strokeWidth="1.5">
+        {/* Dermapen Device */}
+        <path d="M 35 15 L 65 15 L 55 75 L 45 75 Z" stroke="#B48B5E" />
+        <rect x="42" y="75" width="16" height="5" rx="1" fill="#B48B5E" />
+        {/* Needle Cartridge Tip */}
+        <line x1="47" y1="80" x2="47" y2="88" stroke="#B48B5E" strokeWidth="1" />
+        <line x1="50" y1="80" x2="50" y2="90" stroke="#B48B5E" strokeWidth="1" />
+        <line x1="53" y1="80" x2="53" y2="88" stroke="#B48B5E" strokeWidth="1" />
+        {/* Collagen regeneration grid / cells */}
+        <path d="M 25 88 Q 50 82 75 88" stroke="#B48B5E" strokeWidth="1" strokeDasharray="3,3" />
+        <path d="M 25 94 Q 50 88 75 94" stroke="#B48B5E" strokeWidth="1" />
+        {/* Floating skincare serum droplets */}
+        <circle cx="28" cy="40" r="2" fill="#B48B5E" />
+        <circle cx="72" cy="50" r="3" fill="#B48B5E" opacity="0.7" />
+      </svg>
+    </div>
+  );
+}
+
+// 3. رسمة جهاز تقنية الهيدرافيشل وتنظيف المسام المائي
+function HydrofacialIllustration({ className = "w-full h-32" }) {
+  return (
+    <div className={`flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-100/30 dark:from-stone-900 dark:to-stone-950 p-4 rounded-t-3xl ${className}`}>
+      <svg viewBox="0 0 100 100" className="w-20 h-20 text-[#B48B5E]" fill="none" stroke="currentColor" strokeWidth="1.5">
+        {/* Hydro Wand Vacuum Tip */}
+        <path d="M 40 15 L 60 15 L 54 60 L 46 60 Z" stroke="#B48B5E" />
+        <path d="M 46 60 C 46 60, 42 68, 42 74 C 42 80, 58 80, 58 74 C 58 68, 54 60, 54 60" stroke="#B48B5E" fill="none" />
+        {/* Dynamic Water Swirl and Bubbles */}
+        <path d="M 25 70 C 35 60, 45 80, 55 70 C 65 60, 75 80, 85 70" stroke="#B48B5E" strokeWidth="1" />
+        <circle cx="32" cy="55" r="2.5" fill="none" stroke="#B48B5E" />
+        <circle cx="68" cy="50" r="4" fill="none" stroke="#B48B5E" className="animate-ping" />
+        <circle cx="50" cy="74" r="2.5" fill="#B48B5E" />
+        {/* Pure skin glow stars */}
+        <path d="M 72 25 L 74 27 L 72 29 L 70 27 Z" fill="#B48B5E" />
+        <path d="M 28 32 L 30 34 L 28 36 L 26 34 Z" fill="#B48B5E" />
+      </svg>
+    </div>
+  );
+}
+
+// 4. رسمة عبوة التقشير الكيميائي وتفتيح وتجديد طبقات البشرة
+function PeelingIllustration({ className = "w-full h-32" }) {
+  return (
+    <div className={`flex items-center justify-center bg-gradient-to-br from-stone-100 to-amber-100/20 dark:from-stone-900 dark:to-stone-950 p-4 rounded-t-3xl ${className}`}>
+      <svg viewBox="0 0 100 100" className="w-20 h-20 text-[#B48B5E]" fill="none" stroke="currentColor" strokeWidth="1.5">
+        {/* Peeling Dropper Bottle */}
+        <rect x="38" y="30" width="24" height="40" rx="4" stroke="#B48B5E" />
+        <rect x="44" y="22" width="12" height="8" rx="1" fill="#B48B5E" />
+        <path d="M 50 12 L 50 22" stroke="#B48B5E" strokeWidth="2" />
+        {/* Peeling Drop Falling */}
+        <path d="M 50 74 C 50 74, 46 80, 46 84 C 46 88, 54 88, 54 84 C 54 80, 50 74, 50 74 Z" fill="#B48B5E" className="animate-bounce" />
+        {/* Regenerated glowing skin cells */}
+        <circle cx="28" cy="78" r="1.5" fill="#B48B5E" />
+        <circle cx="72" cy="76" r="2" fill="#B48B5E" />
+        {/* Exfoliating sparkles */}
+        <path d="M 28 42 L 30 44 L 28 46 L 26 44 Z" fill="#B48B5E" />
+        <path d="M 72 38 L 74 40 L 72 42 L 70 40 Z" fill="#B48B5E" />
+      </svg>
+    </div>
+  );
+}
+
+// 5. رسمة ماسك النضارة الفوري وبشرة الوجه الشابة
+function GlowMaskIllustration({ className = "w-full h-32" }) {
+  return (
+    <div className={`flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-100/40 dark:from-stone-900 dark:to-stone-950 p-4 rounded-t-3xl ${className}`}>
+      <svg viewBox="0 0 100 100" className="w-20 h-20 text-[#B48B5E]" fill="none" stroke="currentColor" strokeWidth="1.5">
+        {/* Elegant Female Face Profile Outline */}
+        <path d="M 35 25 C 40 20, 55 18, 65 28 C 72 35, 70 48, 62 55 C 55 60, 52 68, 50 76 C 49 80, 42 82, 38 78 C 34 74, 30 65, 32 55" stroke="#B48B5E" strokeLinecap="round" />
+        {/* Glowing Hydration Mask Sheet lines */}
+        <path d="M 45 32 Q 55 30 62 38" stroke="#B48B5E" strokeWidth="1" strokeDasharray="2,2" />
+        <path d="M 42 45 Q 52 42 58 50" stroke="#B48B5E" strokeWidth="1" strokeDasharray="2,2" />
+        <path d="M 45 58 Q 50 56 55 60" stroke="#B48B5E" strokeWidth="1" strokeDasharray="2,2" />
+        {/* Sparkling stars of absolute hydration */}
+        <path d="M 74 55 L 77 58 L 74 61 L 71 58 Z" fill="#B48B5E" className="animate-pulse" />
+        <path d="M 26 45 L 29 48 L 26 51 L 23 48 Z" fill="#B48B5E" />
+        {/* Hydration drop */}
+        <circle cx="50" cy="20" r="2" fill="#B48B5E" />
+      </svg>
+    </div>
+  );
+}
+
+
+// ==================== القائمة الكاملة للـ 23 باقة تجميلية مع تفاصيلها الدقيقة والأسعار ====================
+const GLOW_PACKAGES = [
+  {
+    id: 1,
+    title: "Glow Package 1",
+    price: 20,
+    category: "basic",
+    illustration: "mask",
+    items: [
+      { name: "تقشير ألماسي علاجي للوجه", free: false },
+      { name: "ماسك النضارة الفائق", free: false },
+      { name: "محلول النضارة المكثف", free: true }
+    ],
+    bgGradient: "from-amber-50 to-orange-100/40"
+  },
+  {
+    id: 2,
+    title: "Glow Package 2",
+    price: 30,
+    category: "basic",
+    illustration: "hydro",
+    items: [
+      { name: "هايدروفيشال عميق للبشرة", free: false },
+      { name: "تقشير ألماسي علاجي", free: false }
+    ],
+    bgGradient: "from-amber-50 to-orange-100/40"
+  },
+  {
+    id: 3,
+    title: "Glow Package 3",
+    price: 35,
+    category: "basic",
+    illustration: "hydro",
+    items: [
+      { name: "هايدروفيشال 12 مرحلة", free: false },
+      { name: "تقشير ألماسي ناعم", free: false },
+      { name: "ماسك النضارة المكثف", free: false },
+      { name: "محلول النضارة الأصلي", free: true }
+    ],
+    bgGradient: "from-amber-50 to-orange-100/40"
+  },
+  {
+    id: 4,
+    title: "Glow Package 4",
+    price: 40,
+    category: "basic",
+    illustration: "mask",
+    items: [
+      { name: "هايدروفيشال نضارة", free: false },
+      { name: "جلسة تفتيح لليدين", free: false },
+      { name: "تقشير ألماسي للوجه", free: true }
+    ],
+    bgGradient: "from-amber-50 to-orange-100/40"
+  },
+  {
+    id: 5,
+    title: "Glow Package 5",
+    price: 40,
+    category: "basic",
+    illustration: "hydro",
+    items: [
+      { name: "هايدروفيشال مائي", free: false },
+      { name: "جلسة تفتيح لليدين والساعدين", free: false },
+      { name: "محلول النضارة المطور", free: true }
+    ],
+    bgGradient: "from-amber-50 to-orange-100/40"
+  },
+  {
+    id: 6,
+    title: "Glow Package 6",
+    price: 75,
+    category: "peeling",
+    illustration: "peeling",
+    items: [
+      { name: "هايدروفيشال لتنظيف المسام", free: false },
+      { name: "تقشير كيميائي لتجديد الخلايا", free: false },
+      { name: "توريد الشفايف الفوري", free: true }
+    ],
+    bgGradient: "from-stone-100 to-amber-100/30"
+  },
+  {
+    id: 7,
+    title: "Glow Package 7",
+    price: 165,
+    category: "peeling",
+    illustration: "peeling",
+    items: [
+      { name: "هايدروفيشال عميق", free: false },
+      { name: "تقشير مخصص للتصبغات العميقة", free: false },
+      { name: "بكج التصبغات المنزلي متكامل", free: false },
+      { name: "تقشير اليدين + حقن تصبغات", free: true }
+    ],
+    bgGradient: "from-stone-100 to-amber-100/30"
+  },
+  {
+    id: 8,
+    title: "Glow Package 8",
+    price: 165,
+    category: "peeling",
+    illustration: "peeling",
+    items: [
+      { name: "هايدروفيشال 12 مرحلة", free: false },
+      { name: "تقشير العيوب والندوب المستعصية", free: false },
+      { name: "بكج العناية الخاص بعد التقشير", free: false },
+      { name: "تقشير اليدين الناعم", free: true }
+    ],
+    bgGradient: "from-stone-100 to-amber-100/30"
+  },
+  {
+    id: 9,
+    title: "Glow Package 9",
+    price: 60,
+    category: "peeling",
+    illustration: "dermapen",
+    items: [
+      { name: "هايدروفيشال تنظيف عميق", free: false },
+      { name: "جلسة ديرمابن للوجه بالهيالورونيك", free: false },
+      { name: "توريد الشفايف الطبيعي مجاناً", free: true }
+    ],
+    bgGradient: "from-stone-100 to-amber-100/30"
+  },
+  {
+    id: 10,
+    title: "Glow Package 10",
+    price: 65,
+    category: "peeling",
+    illustration: "dermapen",
+    items: [
+      { name: "هايدروفيشال متكامل", free: false },
+      { name: "جلسة ديرمابن لتجديد البشرة", free: false },
+      { name: "جلسة تفتيح ونضارة اليدين", free: false }
+    ],
+    bgGradient: "from-stone-100 to-amber-100/30"
+  },
+  {
+    id: 11,
+    title: "Glow Package 11",
+    price: 135,
+    category: "peeling",
+    illustration: "dermapen",
+    items: [
+      { name: "هايدروفيشال طبيعي", free: false },
+      { name: "ديرمابن مخصص لعلاج تصبغات الجلد", free: false },
+      { name: "روتين متكامل للبشرة (للتصبغات)", free: false },
+      { name: "محلول تصبغات مركز عالي الفعالية", free: false },
+      { name: "تقشير ألماسي كهدية إضافية", free: true }
+    ],
+    bgGradient: "from-stone-100 to-amber-100/30"
+  },
+  {
+    id: 12,
+    title: "Glow Package 12",
+    price: 110,
+    category: "peeling",
+    illustration: "dermapen",
+    items: [
+      { name: "هايدروفيشال للمسامات", free: false },
+      { name: "جلسة ديرمابن لتحفيز الكولاجين", free: false },
+      { name: "جلسة تقشير مخصص للوجه", free: false },
+      { name: "تقشير اليدين الناعم مجاناً", free: true }
+    ],
+    bgGradient: "from-stone-100 to-amber-100/30"
+  },
+  {
+    id: 13,
+    title: "Glow Package 13",
+    price: 100,
+    category: "needles",
+    illustration: "needle",
+    items: [
+      { name: "هايدروفيشال لتهيئة الجلد", free: false },
+      { name: "حقن إبرة النضارة الفاخرة للوجه", free: false },
+      { name: "محلول النضارة الخاص بالعيادة", free: false },
+      { name: "تقشير ألماسي علاجي مجاناً", free: true }
+    ],
+    bgGradient: "from-rose-50 to-amber-100/20"
+  },
+  {
+    id: 14,
+    title: "Glow Package 14",
+    price: 135,
+    category: "needles",
+    illustration: "needle",
+    items: [
+      { name: "هايدروفيشال 12 خطوة", free: false },
+      { name: "حقن إبرة سالمون DNA السويسرية", free: false },
+      { name: "محلول النضارة المائي المغذي", free: false },
+      { name: "تقشير بشرة اليدين مجاناً", free: true }
+    ],
+    bgGradient: "from-rose-50 to-amber-100/20"
+  },
+  {
+    id: 15,
+    title: "Glow Package 15",
+    price: 125,
+    category: "needles",
+    illustration: "needle",
+    items: [
+      { name: "هايدروفيشال تنظيف عميق", free: false },
+      { name: "حقن إبرة البوتكس لشد التجاعيد", free: false },
+      { name: "جلسة تقشير ألماسي ناعم للوجه", free: false },
+      { name: "محلول النضارة واللمعان مجاناً", free: true }
+    ],
+    bgGradient: "from-rose-50 to-amber-100/20"
+  },
+  {
+    id: 16,
+    title: "Glow Package 16",
+    price: 120,
+    category: "needles",
+    illustration: "needle",
+    items: [
+      { name: "هايدروفيشال وتنقية البشرة", free: false },
+      { name: "حقن الفيلر الفاخر لتعبئة الفراغات", free: false },
+      { name: "جلسة تقشير ألماسي لتجديد الجلد", free: false },
+      { name: "محلول النضارة الغني بالفيتامينات", free: true }
+    ],
+    bgGradient: "from-rose-50 to-amber-100/20"
+  },
+  {
+    id: 17,
+    title: "Glow Package 17",
+    price: 125,
+    category: "needles",
+    illustration: "needle",
+    items: [
+      { name: "هايدروفيشال نضارة مائي", free: false },
+      { name: "حقن إبرة العنبر الإيطالية للترميم", free: false },
+      { name: "تقشير ألماسي لإزالة الجلد الميت", free: false },
+      { name: "محلول النضارة واللمعان مجاناً", free: true }
+    ],
+    bgGradient: "from-rose-50 to-amber-100/20"
+  },
+  {
+    id: 18,
+    title: "Glow Package 18",
+    price: 150,
+    category: "needles",
+    illustration: "needle",
+    items: [
+      { name: "هايدروفيشال شامل", free: false },
+      { name: "حقن إبرة العنبر المرممة المتميزة", free: false },
+      { name: "جلسة ديرمابن بالهيالورونيك اسيد", free: false },
+      { name: "محلول النضارة الفرنسي المغذي", free: false },
+      { name: "تقشير ألماسي كهدية مجانية", free: true }
+    ],
+    bgGradient: "from-rose-50 to-amber-100/20"
+  },
+  {
+    id: 19,
+    title: "Glow Package 19",
+    price: 250,
+    category: "needles",
+    illustration: "needle",
+    items: [
+      { name: "هايدروفيشال مائي متكامل", free: false },
+      { name: "حقن إبرة العنبر المرممة للجلد", free: false },
+      { name: "حقن إبرة بوتكس للتجاعيد التعبيرية", free: false },
+      { name: "جلسة ديرمابن متكاملة نضارة", free: false },
+      { name: "علاج منطقة تحت العينين والهالات", free: true }
+    ],
+    bgGradient: "from-rose-50 to-amber-100/20"
+  },
+  {
+    id: 20,
+    title: "Glow Package 20",
+    price: 270,
+    category: "needles",
+    illustration: "needle",
+    items: [
+      { name: "هايدروفيشال شامل تنظيف", free: false },
+      { name: "حقن إبرة سالمون DNA لتغذية الخلايا", free: false },
+      { name: "حقن إبرة بوتكس لشد التجاعيد", free: false },
+      { name: "جلسة ديرمابن مخصصة نضارة", free: false },
+      { name: "جلسة علاج تحت العينين مجاناً", free: true }
+    ],
+    bgGradient: "from-rose-50 to-amber-100/20"
+  },
+  {
+    id: 21,
+    title: "Glow Package 21",
+    price: 350,
+    category: "needles",
+    illustration: "needle",
+    items: [
+      { name: "هايدروفيشال لتنقية المسام", free: false },
+      { name: "حقن إبرة سالمون DNA المغذية للجلد", free: false },
+      { name: "حقن إبرة عنبر الإيطالية للمرونة والشد", free: false },
+      { name: "حقن إبرة بوتكس لشد الجبهة وحول العين", free: false },
+      { name: "جلسة ديرمابن نضارة متطورة", free: false },
+      { name: "جلسة علاج تحت العينين مجاناً", free: true }
+    ],
+    bgGradient: "from-rose-50 to-amber-100/20"
+  },
+  {
+    id: 22,
+    title: "Glow Package 22",
+    price: 125,
+    category: "basic",
+    illustration: "hydro",
+    items: [
+      { name: "هايدروفيشال تنظيف عميق للبشرة", free: false },
+      { name: "روتين علاجي مخصص لنوع البشرة", free: false },
+      { name: "تقشير ألماسي ناعم للجلد الميت", free: false },
+      { name: "محلول النضارة والترطيب المكثف", free: false }
+    ],
+    bgGradient: "from-amber-50 to-orange-100/40"
+  },
+  {
+    id: 23,
+    title: "Glow Package 23",
+    price: 100,
+    category: "basic",
+    illustration: "hydro",
+    items: [
+      { name: "هايدروفيشال 12 مرحلة تنظيف", free: false },
+      { name: "تقشير ألماسي ناعم للوجه والرقبة", free: false },
+      { name: "محلول النضارة المائي المغذي للبشرة", free: false }
+    ],
+    bgGradient: "from-amber-50 to-orange-100/40"
+  }
+];
+
+// الشعار الرسمي لمركز Glow_rx برمجياً بالكامل ومطابق لصور العروض
+function GlowRxLogo({ className = "h-14", customColor = null }) {
+  return (
+    <div className={`flex flex-col items-center justify-center ${className}`}>
+      <svg 
+        viewBox="0 0 320 90" 
+        className="w-full h-full fill-current"
+        style={{ color: customColor || 'var(--logo-color, inherit)' }}
+      >
+        <g>
+          {/* GLOWRX TEXT */}
+          {/* G */}
+          <path d="M22 46.5 C22 36.5 28.5 29 38 29 C44 29 48.5 32 50.5 37 L46.5 39 C45 35.5 42 33 38 33 C31 33 26.5 38.5 26.5 46.5 C26.5 54.5 31 60 38 60 C42.5 60 46 57 47 52 L38 52 L38 48.5 L51.5 48.5 L51.5 63 L47.5 63 L47 59 C45 62 41.5 64 37.5 64 C28 64 22 56.5 22 46.5 Z" />
+          
+          {/* L */}
+          <path d="M60 29.5 L64 29.5 L64 59.5 L78 59.5 L78 63 L60 63 Z" />
+          
+          {/* O - WITH WOMAN PROFILE SILHOUETTE */}
+          <g>
+            {/* O Outer Circle */}
+            <path d="M103 46 C103 35.8 95.2 28 85 28 C74.8 28 67 35.8 67 46 C67 56.2 74.8 64 85 64 C95.2 64 103 56.2 103 46 Z M70.5 46 C70.5 37.8 77 31.2 85 31.2 C93 31.2 99.5 37.8 99.5 46 C99.5 54.2 93 60.8 85 60.8 C77 60.8 70.5 54.2 70.5 46 Z" />
+            
+            {/* Silhouette inside O */}
+            <path d="M83.5,35.5 C83.5,35.5 82.8,36.5 82.5,37 C82.1,37.6 81.3,38.2 80.7,38.8 C80.1,39.4 79.5,40.1 79.5,41 C79.5,41.5 79.7,42.2 80,42.8 C80.3,43.4 80.8,43.9 80.5,44.5 C80.2,45.1 79,45.4 78.4,45.6 C77.8,45.8 77.1,46.2 77.2,46.7 C77.3,47.2 78,47.5 78.5,47.8 C79,48.1 79.1,48.5 78.8,49 C78.5,49.5 77.8,49.8 78,50.4 C78.2,51 79,51.2 79.8,51.5 C80.6,51.8 81,52.5 81.5,53 C81.2,53.5 80.3,53.8 80.5,54.5 C80.7,55.2 81.5,55.5 82,56 C82.5,56.5 83,57.5 84,58 C85,58.5 86.5,59 87,58 C86,57.5 85.5,56.5 85.5,55.5 C85.5,54.5 86.2,53.8 86.5,53 C86.8,52.2 86.2,51.5 86,50.8 C85.8,50.1 86.2,49.5 86.8,49 C87.4,48.5 88.5,48 88.8,47.2 C89.1,46.4 88.2,45.8 88.5,45 C88.8,44.2 89.8,43.5 90,42.5 C90.2,41.5 89.5,40.8 89.5,40 C89.5,39.2 90.2,38.5 90,37.5 C89.8,36.5 88.8,35.8 88,35 C87.2,34.2 86,34.5 85,34.8 C84,35.1 83.5,35.5 83.5,35.5 Z" />
+          </g>
+          
+          {/* W */}
+          <path d="M106 29.5 L111.5 29.5 L116.5 53.5 L121.5 29.5 L126.5 29.5 L131.5 53.5 L136.5 29.5 L142 29.5 L134.5 63 L129 63 L124 39.5 L119 63 L113.5 63 Z" />
+          
+          {/* R */}
+          <path d="M148 29.5 L160 29.5 C166.5 29.5 171 33.5 171 39.5 C171 44.5 167.5 48 162.5 49 L172.5 63 L167.5 63 L158 49.5 L152 49.5 L152 63 L148 63 Z M152 46 L159.5 46 C164 46 167 43.5 167 39.5 C167 35.5 164 33 159.5 33 L152 33 Z" />
+          
+          {/* X */}
+          <path d="M176 29.5 L182 29.5 L191.5 44.5 L201 29.5 L207 29.5 L195 48.5 L207 63 L201 63 L191.5 49.5 L182 63 L176 63 L188 48.5 Z" />
+
+          {/* SKINCARE CENTER SUBTITLE */}
+          <text 
+            x="80" 
+            y="76" 
+            fontSize="7" 
+            fontWeight="bold" 
+            letterSpacing="6.5" 
+            className="tracking-widest opacity-90"
+          >
+            SKINCARE CENTER
+          </text>
+
+          {/* Elegant curly scroll line under GLOWRX */}
+          <path 
+            d="M 50 83 Q 110 78, 160 83 T 270 83" 
+            fill="none" 
+            stroke="#B48B5E" 
+            strokeWidth="1" 
+            strokeLinecap="round"
+          />
+          <path 
+            d="M 125 81 C 135 83, 145 77, 150 81 C 155 85, 165 79, 175 81" 
+            fill="none" 
+            stroke="#B48B5E" 
+            strokeWidth="0.75"
+          />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+export default function App() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [maxPrice, setMaxPrice] = useState(350);
+  const [selectedPackages, setSelectedPackages] = useState([]);
+  const [showCart, setShowCart] = useState(false);
+  const [bookingName, setBookingName] = useState('');
+  const [bookingPhone, setBookingPhone] = useState('');
+  const [bookingDate, setBookingDate] = useState('');
+  const [bookingTime, setBookingTime] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [activeTab, setActiveTab] = useState('packages'); 
+
+  // تصفية الباقات الذكية بناءً على خيارات البحث والميزانية والنوع
+  const filteredPackages = useMemo(() => {
+    return GLOW_PACKAGES.filter(pkg => {
+      const matchesSearch = pkg.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        pkg.items.some(item => item.name.includes(searchTerm));
+      const matchesCategory = selectedCategory === 'all' || pkg.category === selectedCategory;
+      const matchesPrice = pkg.price <= maxPrice;
+      return matchesSearch && matchesCategory && matchesPrice;
+    });
+  }, [searchTerm, selectedCategory, maxPrice]);
+
+  // إدارة واجهة تحديد الباقات وإضافتها للسلة
+  const togglePackageSelection = (pkg) => {
+    setSelectedPackages(prev => {
+      if (prev.some(p => p.id === pkg.id)) {
+        return prev.filter(p => p.id !== pkg.id);
+      } else {
+        return [...prev, pkg];
+      }
+    });
+  };
+
+  const handleCheckoutToWhatsApp = (e) => {
+    e.preventDefault();
+    if (selectedPackages.length === 0) {
+      alert("الرجاء اختيار باقة واحدة على الأقل لإرسال طلب الحجز!");
+      return;
+    }
+    
+    // رقم التواصل الدولي الصحيح والموحد لـ Glow_rx
+    const waApiPhone = "962776219104"; 
+
+    let message = `🌸 طلب حجز موعد جديد - موقع Glow_rx 🌸\n\n`;
+    message += `👤 اسم العميلة: ${bookingName || 'غير محدد'}\n`;
+    message += `📞 رقم التواصل: ${bookingPhone || 'غير محدد'}\n`;
+    message += `📅 التاريخ المطلوب: ${bookingDate || 'غير محدد'}\n`;
+    message += `⏰ الوقت المفضل: ${bookingTime || 'غير محدد'}\n\n`;
+    message += `✨ الباقات التجميلية المختارة:\n`;
+    
+    let total = 0;
+    selectedPackages.forEach((pkg) => {
+      message += `▫️ ${pkg.title} (${pkg.price} د.أ)\n`;
+      total += pkg.price;
+    });
+    
+    message += `\n💵 إجمالي الحجز: ${total} دينار أردني\n\n`;
+    message += `الرجاء تثبيت الموعد المختار والتواصل لتأكيده 💖`;
+    
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/${waApiPhone}?text=${encodedMessage}`, '_blank');
+  };
+
+  return (
+    <div className={`min-h-screen font-sans ${isDarkMode ? 'bg-[#141210] text-[#FAF8F5]' : 'bg-[#FAF8F5] text-stone-900'} transition-colors duration-300`}>
+      
+      {/* الهيدر الأنيق المتوافق مع الأجهزة المحمولة */}
+      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#141210]/90 backdrop-blur-md border-b border-amber-200/20 dark:border-stone-800 transition-colors">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+          
+          {/* دمج الشعار الفني المتفاعل مع الوضعين المظلم والفاتح */}
+          <div className="flex items-center gap-2">
+            <div className="w-44 sm:w-56" style={{ '--logo-color': isDarkMode ? '#FAF8F5' : '#1C1917' }}>
+              <GlowRxLogo />
+            </div>
+            <div className="hidden lg:flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 text-xs px-2.5 py-1 rounded-full font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              مفتوح 24 ساعة (طبربور)
+            </div>
+          </div>
+
+          {/* روابط التنقل السريعة للعميلات */}
+          <nav className="hidden md:flex items-center gap-8 text-sm font-bold tracking-wide">
+            <button onClick={() => setActiveTab('packages')} className={`pb-1 border-b-2 transition-colors ${activeTab === 'packages' ? 'border-[#B48B5E] text-[#B48B5E]' : 'border-transparent hover:text-[#B48B5E]'}`}>باقات الجمال</button>
+            <button onClick={() => { setActiveTab('packages'); setTimeout(() => document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' }), 100) }} className="hover:text-[#B48B5E] transition-colors">موقعنا واتصل بنا</button>
+            <button onClick={() => { setActiveTab('packages'); setTimeout(() => document.getElementById('about-section').scrollIntoView({ behavior: 'smooth' }), 100) }} className="hover:text-[#B48B5E] transition-colors">رؤيتنا</button>
+          </nav>
+
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* سلة حجز الباقات */}
+            <button onClick={() => setShowCart(true)} className="relative p-3 bg-stone-100 dark:bg-stone-900 rounded-full text-stone-700 dark:text-stone-200 hover:scale-105 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.2} stroke="currentColor" className="w-5 h-5 text-[#B48B5E]">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375 0 11-.75 0 .375 0 01.75 0zm7.5 0a.375 0 11-.75 0 .375 0 01.75 0z" />
+              </svg>
+              {selectedPackages.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-amber-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center animate-bounce">
+                  {selectedPackages.length}
+                </span>
+              )}
+            </button>
+
+            {/* زر تبديل الوضع الليلي والنهاري */}
+            <button onClick={() => setIsDarkMode(!isDarkMode)} className="p-3 bg-stone-100 dark:bg-stone-900 rounded-full text-[#B48B5E] hover:scale-105 transition-transform">
+              {isDarkMode ? '☀️' : '🌙'}
+            </button>
+
+            <a href="tel:00962776219104" className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 bg-[#B48B5E] text-white rounded-xl text-xs font-bold shadow-lg shadow-[#B48B5E]/20 hover:bg-[#9E7348] transition-colors">
+              📞 00962776219104
+            </a>
+          </div>
+        </div>
+      </header>
+
+      {/* البانر الترحيبي العريض للمركز وتوهج البشرة */}
+      <section className="relative overflow-hidden py-16 md:py-24 bg-gradient-to-br from-amber-50/60 via-transparent to-stone-100 dark:from-[#141210] dark:to-stone-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+          <div className="mx-auto w-64 md:w-80" style={{ '--logo-color': '#B48B5E' }}>
+            <GlowRxLogo />
+          </div>
+          
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-stone-950 dark:text-white leading-tight">
+            باقات العناية المتكاملة والترميم للبشرة <br />
+            <span className="text-[#B48B5E] text-2xl sm:text-4xl lg:text-5xl">23 باقة مدعمة بصور توضيحية لجمالكِ وتوهجكِ اليومي</span>
+          </h1>
+          <p className="text-stone-600 dark:text-stone-300 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
+            نحن في <strong>Glow_rx skincare Center</strong> نهتم بكل ما يلزم صحة بشرتكِ. تصفحي الباقات الـ 23 واكتشفي تفاصيل العناية المخصصة ومكوناتها الدقيقة بوضوح تام.
+          </p>
+          
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <button onClick={() => document.getElementById('search-filters-section').scrollIntoView({ behavior: 'smooth' })} className="px-8 py-4 bg-[#B48B5E] hover:bg-[#9E7348] text-white font-extrabold rounded-2xl shadow-xl shadow-[#B48B5E]/25 transition-all transform hover:-translate-y-0.5 text-sm">
+              ✨ عرض وتصفح الباقات الـ 23 بالصور
+            </button>
+            <a href="https://instagram.com/glow_rx_center" target="_blank" className="px-8 py-4 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-800 dark:text-white font-extrabold rounded-2xl transition-all hover:bg-stone-50 flex items-center justify-center gap-2 text-sm">
+              📷 انستقرامنا المحدث @glow_rx_center
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* قسم قصة المركز وريادتنا (About Section) */}
+      <section id="about-section" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="space-y-6">
+          <div className="w-12 h-1 bg-[#B48B5E] rounded-full"></div>
+          <h2 className="text-3xl font-black text-stone-900 dark:text-white">فلسفتنا في العناية بالجلد والترميم</h2>
+          <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm sm:text-base">
+            إن العناية المتميزة والترميم تبدأ من اختيار الباقات الصحيحة والمتكاملة. نتميز بتقديم خطط تجميلية متكاملة تشتمل على تنظيف هيدرافيشل عميق، ديرمابن، تقشير كيميائي وعلاجي للتصبغات، وإبر العنبر وسالومون DNA وبوتكس لشد فوري ونضارة عميقة مستمرة.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+            <div className="flex items-start gap-3">
+              <span className="text-emerald-500 text-lg font-bold">✓</span>
+              <div>
+                <h4 className="font-bold text-sm">باقات متدرجة واحترافية بالكامل</h4>
+                <p className="text-xs text-stone-400">تغطية تامة لكافة عيوب وتصبغات وجفاف البشرة.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="text-emerald-500 text-lg font-bold">✓</span>
+              <div>
+                <h4 className="font-bold text-sm">تعقيم فائق ومواد فاخرة</h4>
+                <p className="text-xs text-stone-400">أرقى محاليل النضارة والترميم تحت إشراف متخصص.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-gradient-to-tr from-amber-50 to-orange-100/40 dark:from-stone-900 dark:to-stone-950 p-8 rounded-3xl border border-amber-200/20 shadow-xl space-y-6">
+          <div className="flex justify-between items-center">
+            <span className="text-xs font-bold bg-[#B48B5E]/20 text-[#B48B5E] px-3 py-1 rounded-full">طبربور - عمان</span>
+            <div className="w-24" style={{ '--logo-color': '#B48B5E' }}><GlowRxLogo /></div>
+          </div>
+          <div>
+            <h3 className="text-2xl font-black text-stone-900 dark:text-stone-100">ساعات عمل على مدار الساعة</h3>
+            <p className="text-[#B48B5E] text-xs font-bold mt-1">مفتوح طوال أيام الأسبوع 24 ساعة لنكون دوماً بجانبكِ لراحتكِ التامة.</p>
+          </div>
+          <a href="tel:00962776219104" className="block text-center py-3 bg-[#B48B5E] hover:bg-[#9E7348] text-white rounded-xl text-xs font-extrabold shadow transition-all">
+            اتصلي بنا لحجز موعد فوري: 00962776219104
+          </a>
+        </div>
+      </section>
+
+      {/* قسم البحث والتصفية وعرض باقات الجمال الـ 23 بالصور */}
+      <section id="search-filters-section" className="py-20 bg-stone-100/50 dark:bg-stone-900/40 border-y border-stone-200/40 dark:border-stone-800 transition-colors">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          
+          <div className="text-center space-y-4 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-black text-stone-900 dark:text-white">باقات التجميل الـ 23 بالصور التوضيحية</h2>
+            <p className="text-xs sm:text-sm text-stone-500">استخدمي الفلاتر الفورية ومحرك البحث السريع أدناه لمشاهدة رسومات باقاتكِ ومكوناتها بدقة تامة.</p>
+          </div>
+
+          {/* محرك البحث والفلاتر الفخمة */}
+          <div className="bg-white dark:bg-stone-950 p-6 rounded-3xl shadow-xl space-y-6 transition-colors border border-amber-200/10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              
+              {/* البحث بالاسم أو مادة تجميلية داخل الباقة */}
+              <div className="lg:col-span-5 relative">
+                <label className="block text-xs font-bold text-[#B48B5E] uppercase tracking-wider mb-2">ابحثي عن باقة أو مادة تجميلية:</label>
+                <div className="relative">
+                  <input 
+                    type="text" 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="مثال: ديرمابن، بوتكس، فيلر، تقشير كيميائي، سالمون..."
+                    className="w-full px-4 py-3 rounded-2xl bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 focus:ring-2 focus:ring-[#B48B5E] focus:outline-none text-sm transition-all"
+                  />
+                  <span className="absolute left-4 top-3 text-stone-400">🔍</span>
+                </div>
+              </div>
+
+              {/* فلتر السعر الأقصى */}
+              <div className="lg:col-span-4">
+                <div className="flex justify-between text-xs font-bold text-[#B48B5E] uppercase tracking-wider mb-2">
+                  <span>الحد الأقصى للسعر المفضل:</span>
+                  <span className="text-[#B48B5E] text-sm">{maxPrice} د.أ</span>
+                </div>
+                <input 
+                  type="range" 
+                  min="20" 
+                  max="350" 
+                  step="5"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(Number(e.target.value))}
+                  className="w-full h-2 bg-stone-100 dark:bg-stone-900 rounded-lg appearance-none cursor-pointer accent-[#B48B5E]"
+                />
+              </div>
+
+              {/* التصنيف السريع للباقات */}
+              <div className="lg:col-span-3">
+                <label className="block text-xs font-bold text-[#B48B5E] uppercase tracking-wider mb-2">نوع ومستوى العلاج:</label>
+                <select 
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="w-full px-4 py-3 rounded-2xl bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-sm font-semibold text-stone-700 dark:text-stone-300 focus:outline-none focus:ring-2 focus:ring-[#B48B5E]"
+                >
+                  <option value="all">جميع الباقات الـ 23</option>
+                  <option value="basic">العناية الاقتصادية ونضارة اليدين (20 - 125 د.أ)</option>
+                  <option value="peeling">الديرمابن والتقشير العلاجي والتفتيح (60 - 165 د.أ)</option>
+                  <option value="needles">باقات النخبة وإبر النضارة / الفيلر / البوتكس (100 - 350 د.أ)</option>
+                </select>
+              </div>
+
+            </div>
+
+            {/* أزرار التصفية السريعة اللطيفة */}
+            <div className="flex flex-wrap gap-2 pt-2 border-t border-stone-100 dark:border-stone-900">
+              <button onClick={() => { setSelectedCategory('all'); setSearchTerm(''); setMaxPrice(350); }} className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${selectedCategory === 'all' && searchTerm === '' && maxPrice === 350 ? 'bg-[#B48B5E] text-white' : 'bg-stone-50 dark:bg-stone-900 text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800'}`}>عرض الـ 23 باقة كاملة</button>
+              <button onClick={() => { setSelectedCategory('basic'); setSearchTerm(''); }} className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${selectedCategory === 'basic' ? 'bg-[#B48B5E] text-white' : 'bg-stone-50 dark:bg-stone-900 text-stone-500'}`}>العناية الاقتصادية ونضارة اليدين</button>
+              <button onClick={() => { setSelectedCategory('peeling'); setSearchTerm(''); }} className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${selectedCategory === 'peeling' ? 'bg-[#B48B5E] text-white' : 'bg-stone-50 dark:bg-stone-900 text-stone-500'}`}>الديرمابن والتقشير العلاجي</button>
+              <button onClick={() => { setSelectedCategory('needles'); setSearchTerm(''); }} className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${selectedCategory === 'needles' ? 'bg-[#B48B5E] text-white' : 'bg-stone-50 dark:bg-stone-900 text-stone-500'}`}>الفيلر والبوتكس وإبر النضارة (عنبر/سالمون)</button>
+            </div>
+          </div>
+
+          {/* شبكة الباقات الـ 23 كاملة ومدعمة بالرسومات */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredPackages.map(pkg => {
+              const isSelected = selectedPackages.some(p => p.id === pkg.id);
+              return (
+                <div key={pkg.id} className={`bg-white dark:bg-stone-950 rounded-3xl overflow-hidden border transition-all duration-300 flex flex-col justify-between ${isSelected ? 'border-[#B48B5E] ring-2 ring-[#B48B5E]/30 scale-[1.02] shadow-xl' : 'border-stone-200/60 dark:border-stone-800 hover:shadow-lg'}`}>
+                  
+                  {/* دمج الصورة الفيكتور الفاخرة للخدمة قبل محتويات الباقة */}
+                  {pkg.illustration === "needle" && <NeedleIllustration />}
+                  {pkg.illustration === "dermapen" && <DermapenIllustration />}
+                  {pkg.illustration === "hydro" && <HydrofacialIllustration />}
+                  {pkg.illustration === "peeling" && <PeelingIllustration />}
+                  {pkg.illustration === "mask" && <GlowMaskIllustration />}
+
+                  {/* رأس الكارت */}
+                  <div className={`p-6 border-t border-stone-100 dark:border-stone-900`}>
+                    <div className="flex justify-between items-start">
+                      <span className="text-xs font-extrabold uppercase bg-stone-950 text-white dark:bg-stone-800 dark:text-stone-200 px-3.5 py-1 rounded-full tracking-wide">
+                        {pkg.title}
+                      </span>
+                      <span className="text-2xl font-black text-[#B48B5E]">{pkg.price} <span className="text-xs font-bold text-stone-500">د.أ</span></span>
+                    </div>
+                    
+                    {/* تفاصيل نوع الباقة */}
+                    <p className="text-xs text-[#B48B5E] font-bold mt-2">
+                      {pkg.category === 'basic' && '✨ باقة العناية والنضارة الأساسية'}
+                      {pkg.category === 'peeling' && '🧬 باقة التقشير والتجديد العلاجي'}
+                      {pkg.category === 'needles' && '👑 باقة النخبة وإبر النضارة والشد'}
+                    </p>
+                  </div>
+
+                  {/* الخدمات المرفقة بالباقة */}
+                  <div className="px-6 pb-6 space-y-4 flex-1">
+                    <h4 className="text-xs font-bold text-stone-400 uppercase tracking-widest">مكونات ومزايا الباقة بالتفصيل:</h4>
+                    <ul className="space-y-3">
+                      {pkg.items.map((item, idx) => (
+                        <li key={idx} className="flex items-start gap-2.5 text-sm">
+                          {item.free ? (
+                            <span className="bg-emerald-500 text-white text-[10px] font-black px-2 py-0.5 rounded shrink-0">مـجاناً 🎁</span>
+                          ) : (
+                            <span className="text-[#B48B5E] font-bold text-sm">✦</span>
+                          )}
+                          <span className={`text-stone-700 dark:text-stone-300 ${item.free ? 'font-bold text-emerald-600 dark:text-emerald-400' : ''}`}>{item.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* تذييل الكارت التفاعلي للحجز والطلب */}
+                  <div className="p-6 border-t border-stone-100 dark:border-stone-900 bg-stone-50/50 dark:bg-stone-900/20 flex gap-3">
+                    <button 
+                      onClick={() => togglePackageSelection(pkg)}
+                      className={`flex-1 py-3 text-xs font-extrabold rounded-2xl transition-all ${isSelected ? 'bg-rose-600 text-white hover:bg-rose-700' : 'bg-[#B48B5E] text-white hover:bg-[#9E7348]'} shadow-md`}
+                    >
+                      {isSelected ? '❌ إزالة من السلة' : '✨ حجز هذه الباقة'}
+                    </button>
+                    <button 
+                      onClick={() => {
+                        setSelectedPackages([pkg]);
+                        setShowCart(true);
+                        setTimeout(() => document.getElementById('booking-form-top').scrollIntoView({ behavior: 'smooth' }), 100);
+                      }}
+                      className="px-4 py-3 bg-stone-200 dark:bg-stone-800 text-stone-800 dark:text-stone-200 text-xs font-bold rounded-2xl hover:bg-stone-300 dark:hover:bg-stone-700"
+                    >
+                      حجز سريع
+                    </button>
+                  </div>
+
+                </div>
+              );
+            })}
+          </div>
+
+          {filteredPackages.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-lg text-stone-400 font-semibold">لم نجد باقة مطابقة لجميع معايير البحث، يرجى تصفية خيارات البحث لتظهر جميع الباقات.</p>
+              <button onClick={() => { setSelectedCategory('all'); setSearchTerm(''); setMaxPrice(350); }} className="mt-4 px-6 py-2.5 bg-[#B48B5E] text-white rounded-xl text-sm font-bold">إظهار كافة الباقات الـ 23</button>
+            </div>
+          )}
+
+        </div>
+      </section>
+
+      {/* قسم كتابة الحجز الفوري وإرساله مباشرة للمركز */}
+      <section id="booking-section" className="py-20 bg-white dark:bg-stone-950 transition-colors">
+        <div id="booking-form-top" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          
+          <div className="text-center space-y-4">
+            <h2 className="text-3xl font-black text-stone-900 dark:text-white font-serif">حجز موعد فوري مع عيادتنا</h2>
+            <p className="text-xs sm:text-sm text-stone-500">اخترتِ باقتك التجميلية المفضلة؟ عظيم، قومي بتعبئة بيانات الموعد أدناه ليرسل الطلب مباشرة للمركز.</p>
+          </div>
+
+          <form onSubmit={handleCheckoutToWhatsApp} className="p-8 bg-[#FAF8F5] dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl shadow-xl space-y-6">
+            
+            {/* عرض الباقات المحددة في السلة */}
+            <div className="p-4 bg-white dark:bg-stone-950 rounded-2xl border border-stone-200 dark:border-stone-800">
+              <h4 className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-3">الباقات المحددة لحجزكِ الحالي:</h4>
+              {selectedPackages.length === 0 ? (
+                <p className="text-sm text-stone-500">سلتكِ خالية حالياً؛ يرجى تحديد إحدى الباقات التجميلية من عروضنا في الأعلى لحجزها.</p>
+              ) : (
+                <div className="space-y-2">
+                  {selectedPackages.map(p => (
+                    <div key={p.id} className="flex justify-between items-center bg-[#FAF8F5] dark:bg-stone-900 p-3 rounded-xl border border-stone-200/50 dark:border-stone-800">
+                      <div>
+                        <span className="font-extrabold text-sm">{p.title}</span>
+                        <span className="text-xs bg-stone-200 dark:bg-stone-800 px-2 py-0.5 rounded-full ml-2 text-stone-600 dark:text-stone-300">{p.price} د.أ</span>
+                      </div>
+                      <button type="button" onClick={() => togglePackageSelection(p)} className="text-rose-500 hover:text-rose-700 text-xs font-bold">إزالة</button>
+                    </div>
+                  ))}
+                  <div className="pt-3 border-t border-stone-200 dark:border-stone-800 flex justify-between items-center text-lg font-extrabold text-[#B48B5E]">
+                    <span>إجمالي قيمة الحجز:</span>
+                    <span>{selectedPackages.reduce((sum, p) => sum + p.price, 0)} د.أ</span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-bold text-stone-700 dark:text-stone-200 mb-2">اسمكِ الكريم:</label>
+                <input 
+                  type="text" 
+                  value={bookingName}
+                  onChange={(e) => setBookingName(e.target.value)}
+                  placeholder="مثال: رنا أحمد..."
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-950 focus:ring-2 focus:ring-[#B48B5E] focus:outline-none text-sm transition-all"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-stone-700 dark:text-stone-200 mb-2">رقم هاتف التواصل للعميلة:</label>
+                <input 
+                  type="tel" 
+                  value={bookingPhone}
+                  onChange={(e) => setBookingPhone(e.target.value)}
+                  placeholder="00962776219104"
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-950 focus:ring-2 focus:ring-[#B48B5E] focus:outline-none text-sm transition-all text-left"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-bold text-stone-700 dark:text-stone-200 mb-2">تاريخ الموعد المفضل:</label>
+                <input 
+                  type="date" 
+                  value={bookingDate}
+                  onChange={(e) => setBookingDate(e.target.value)}
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-950 focus:ring-2 focus:ring-[#B48B5E] focus:outline-none text-sm transition-all"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-stone-700 dark:text-stone-200 mb-2">وقت الموعد المفضل:</label>
+                <input 
+                  type="time" 
+                  value={bookingTime}
+                  onChange={(e) => setBookingTime(e.target.value)}
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-950 focus:ring-2 focus:ring-[#B48B5E] focus:outline-none text-sm transition-all"
+                />
+              </div>
+            </div>
+
+            <button type="submit" className="w-full py-4 bg-[#B48B5E] hover:bg-[#9E7348] text-white font-extrabold text-lg rounded-2xl shadow-xl shadow-[#B48B5E]/20 transition-all">
+              💬 إرسال وحجز الجلسة مباشرة عبر WhatsApp للمركز
+            </button>
+          </form>
+
+        </div>
+      </section>
+
+      {/* قسم التواصل، خريطة طبربور وبيانات المركز */}
+      <section id="contact-section" className="py-20 bg-stone-50 dark:bg-stone-900 border-t border-stone-200/50 dark:border-stone-800 transition-colors">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            {/* بيانات التواصل والاتصال */}
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <span className="text-[#B48B5E] font-bold text-sm tracking-widest uppercase">أهلاً بزيارتكِ اللطيفة</span>
+                <h2 className="text-3xl font-black text-stone-900 dark:text-white font-serif">طبربور، عمّان - Glow_rx skincare Center</h2>
+                <p className="text-stone-500">نعمل بمرونة تامة واستمرارية لراحتك الكاملة وتوفير أرقى بيئة للراحة النفسية والتعقيم الفائق للجلد وبشرة اليدين والوجه.</p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex gap-4 p-4 rounded-2xl hover:bg-white dark:hover:bg-stone-950 transition-all">
+                  <span className="text-2xl text-[#B48B5E]">📍</span>
+                  <div>
+                    <h4 className="font-bold text-stone-900 dark:text-white">موقع العيادة والمركز</h4>
+                    <p className="text-sm text-stone-500">شارع طبربور الرئيسي، عمّان، الأردن</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4 p-4 rounded-2xl hover:bg-white dark:hover:bg-stone-950 transition-all">
+                  <span className="text-2xl text-[#B48B5E]">📞</span>
+                  <div>
+                    <h4 className="font-bold text-stone-900 dark:text-white">رقم الهاتف والحجز المباشر الموحد</h4>
+                    <a href="tel:00962776219104" className="text-sm text-[#B48B5E] font-extrabold hover:underline">00962776219104</a>
+                  </div>
+                </div>
+
+                <div className="flex gap-4 p-4 rounded-2xl hover:bg-white dark:hover:bg-stone-950 transition-all">
+                  <span className="text-2xl text-[#B48B5E]">📸</span>
+                  <div>
+                    <h4 className="font-bold text-stone-900 dark:text-white">إنستغرام العروض اليومية المحدثة</h4>
+                    <a href="https://instagram.com/glow_rx_center" target="_blank" className="text-sm text-[#B48B5E] font-extrabold hover:underline">@glow_rx_center</a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 flex items-center gap-4">
+                <a href="https://wa.me/962776219104" target="_blank" className="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xl hover:scale-110 transition-transform shadow-lg">
+                  <i className="fab fa-whatsapp"></i>
+                </a>
+                <a href="tel:00962776219104" className="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center text-xl hover:scale-110 transition-transform shadow-lg">
+                  <i className="fas fa-phone-alt"></i>
+                </a>
+              </div>
+            </div>
+
+            {/* خريطة جوجل التفاعلية لطبربور */}
+            <div className="h-96 rounded-3xl overflow-hidden border-2 border-stone-200 dark:border-stone-800 shadow-2xl relative">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3383.6749298457223!2d35.9185!3d31.9865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151b601bc93c0bc3%3A0x8e83b4b840000000!2sTabarbour%20St.%2C%20Amman!5e0!3m2!1sar!2sjo!4v1650000000000!5m2!1sar!2sjo" 
+                className="w-full h-full border-0" 
+                allowFullScreen="" 
+                loading="lazy"
+              ></iframe>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* فوتر الموقع مع شعار المركز المحدث */}
+      <footer className="bg-stone-950 text-stone-400 py-16 border-t border-stone-900 text-center md:text-right">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-stone-900 pb-8">
+            <div className="w-48" style={{ '--logo-color': '#FAF8F5' }}>
+              <GlowRxLogo />
+            </div>
+            <div className="flex flex-wrap justify-center gap-6 text-xs font-semibold">
+              <button onClick={() => setActiveTab('packages')} className="hover:text-white transition-colors">باقات الجمال</button>
+              <a href="#about-section" className="hover:text-white transition-colors">عن المركز</a>
+              <a href="#contact-section" className="hover:text-white transition-colors">تواصل واتصال</a>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-600">
+            <p>شارع طبربور، عمّان - هاتف: 00962776219104 | إنستقرام: @glow_rx_center</p>
+            <p>&copy; ٢٠٢٦ مركز Glow_rx لترميم والعناية بالبشرة. جميع الحقوق محفوظة.</p>
+          </div>
+        </div>
+      </footer>
+
+      {/* نافذة دراور عائمة لسلة الحجز الفورية */}
+      {showCart && (
+        <div className="fixed inset-0 z-50 bg-stone-950/60 backdrop-blur-sm flex items-center justify-end">
+          <div className="bg-white dark:bg-[#141210] w-full max-w-md h-full p-8 overflow-y-auto space-y-6 shadow-2xl border-l border-stone-200 dark:border-stone-800 animate-in slide-in-from-left duration-300">
+            <div className="flex justify-between items-center pb-4 border-b border-stone-100 dark:border-stone-900">
+              <h3 className="font-black text-xl">سلة الباقات المحددة ({selectedPackages.length})</h3>
+              <button onClick={() => setShowCart(false)} className="text-stone-400 hover:text-stone-600 text-xl font-bold">✕</button>
+            </div>
+
+            {selectedPackages.length === 0 ? (
+              <div className="text-center py-12 space-y-4">
+                <p className="text-stone-400 text-sm">سلتكِ فارغة من باقات العروض حالياً.</p>
+                <button onClick={() => setShowCart(false)} className="px-6 py-2 bg-[#B48B5E] text-white rounded-xl text-xs font-bold">تصفح العروض الـ 23</button>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {selectedPackages.map(p => (
+                  <div key={p.id} className="p-4 bg-stone-50 dark:bg-stone-900 rounded-2xl border border-stone-200/40 dark:border-stone-800">
+                    <div className="flex justify-between items-start">
+                      <span className="font-extrabold text-sm">{p.title}</span>
+                      <span className="font-black text-[#B48B5E]">{p.price} د.أ</span>
+                    </div>
+                    <ul className="text-xs text-stone-400 mt-2 list-disc pl-4 space-y-1">
+                      {p.items.map((it, idx) => (
+                        <li key={idx}>{it.name} {it.free && '(مجاناً)'}</li>
+                      ))}
+                    </ul>
+                    <button onClick={() => togglePackageSelection(p)} className="text-rose-500 hover:text-rose-700 text-xs font-bold mt-3 block text-left w-full">إزالة الباقة</button>
+                  </div>
+                ))}
+
+                <div className="pt-4 border-t border-stone-200 dark:border-stone-800 space-y-4">
+                  <div className="flex justify-between items-center text-lg font-black">
+                    <span>الإجمالي:</span>
+                    <span className="text-[#B48B5E]">{selectedPackages.reduce((sum, p) => sum + p.price, 0)} د.أ</span>
+                  </div>
+                  <button 
+                    onClick={() => { setShowCart(false); document.getElementById('booking-section').scrollIntoView({ behavior: 'smooth' }); }}
+                    className="w-full py-3.5 bg-[#B48B5E] text-white font-extrabold text-sm rounded-xl text-center shadow-lg block"
+                  >
+                    تأكيد تعبئة بيانات الموعد
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+```
